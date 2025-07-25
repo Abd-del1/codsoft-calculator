@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Signup Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input {
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #message {
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="greeting">Welcome! Please sign up.</h2>
+        <form id="signupForm">
+            <input type="text" id="name" placeholder="Name" required />
+            <input type="email" id="email" placeholder="Email" required />
+            <input type="password" id="password" placeholder="Password" minlength="6" required />
+            <input type="password" id="confirm" placeholder="Confirm Password" minlength="6" required />
+            <button type="submit">Sign Up</button>
+        </form>
+        <p id="message"></p>
+    </div>
+    <script>
+        const nameInput = document.getElementById('name');
+        const greeting = document.getElementById('greeting');
+        const form = document.getElementById('signupForm');
+        const message = document.getElementById('message');
+
+        // Update greeting based on name input
+        nameInput.addEventListener('input', () => {
+            const name = nameInput.value.trim();
+            if (name) {
+                greeting.textContent = `Welcome, ${name}!`;
+            } else {
+                greeting.textContent = 'Welcome! Please sign up.';
+            }
+        });
+
+        // Handle form submission
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            message.style.color = 'red';
+            const email = document.getElementById('email').value.trim().toLowerCase();
+            const password = document.getElementById('password').value;
+            const confirm = document.getElementById('confirm').value;
+            if (!validateEmail(email)) {
+                message.textContent = 'Please enter a valid email address.';
+                return;
+            }
+            if (password.length < 6) {
+                message.textContent = 'Password must be at least 6 characters long.';
+                return;
+            }
+            if (password !== confirm) {
+                message.textContent = 'Passwords do not match.';
+                return;
+            }
+            // Simulate successful signup
+            message.style.color = 'green';
+            message.textContent = `Thank you for signing up, ${nameInput.value.trim()}!`;
+            form.reset();
+            greeting.textContent = 'Welcome! Please sign up.';
+        });
+
+        function validateEmail(email) {
+            const pattern = /^[\w.-]+@[\w.-]+\.\w+$/;
+            return pattern.test(email);
+        }
+    </script>
+</body>
+</html>
